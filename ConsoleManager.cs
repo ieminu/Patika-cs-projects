@@ -2,46 +2,36 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace DaireCizme
+namespace Algoritma
 {
     class ConsoleManager
     {
-        public static int InputInt()
+        public static ArrayList InputString()
         {
-            int number;
+            ArrayList fixedParameters = new ArrayList();
 
-            TryConvertToInt();
+            TryInput();
 
-            void TryConvertToInt()
+            void TryInput()
             {
                 try
                 {
-                    number = int.Parse(Console.ReadLine());
+                    string input = Console.ReadLine();
+                    string[] parameters = input.Split(',');
+                    fixedParameters = new ArrayList();
+
+                    fixedParameters.Add(parameters[0]);
+                    fixedParameters.Add(int.Parse(parameters[1]));
                 }
 
-                catch (FormatException)
+                catch
                 {
-                    Console.WriteLine();
-                    Console.WriteLine("Geçersiz karakter! Lütfen bir sayı giriniz:");
-                    TryConvertToInt();
-                }
-
-                if (number <= 0)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Geçersiz karakter! Lütfen pozitif bir sayı giriniz:");
-                    TryConvertToInt();
-                }
-
-                if (number > 31)
-                {
-                    Console.WriteLine();
-                    Console.WriteLine("Girebileceğiniz en büyük yarıçap değeri 31'dir! Bir sayı giriniz:");
-                    TryConvertToInt();
+                    Console.WriteLine("Hatalı giriş! İfade giriniz:");
+                    TryInput();
                 }
             }
 
-            return number;
+            return fixedParameters;
         }
     }
 }
