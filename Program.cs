@@ -2,37 +2,40 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Algoritma
+namespace KarakterTerstenYazdirma
 {
     class MainClass
     {
         static void Main(string[] args)
         {
-            RunItAgain:
+            Run:
 
-            Console.WriteLine("\nKendisinden bir karakter çıkartılcak ifadeyi ardından da ',' işaretini girdikten sonra dizin giriniz:");
-            ArrayList inputs = ConsoleManager.InputString();
+            Console.WriteLine("\nTersten yazdırılacak kelimeleri aralarında boşluk bırakarak giriniz:");
+            string input = ConsoleManager.CorrectStringInput();
 
-            string output = inputs[0].ToString();
+            string[] words = input.Contains(" ") == true ? input.Split(" ") : input.Split("");
 
-            try
-            {
-                output = inputs[0].ToString().Remove(int.Parse(inputs[1].ToString()), 1);
-            }
-            catch
-            {}
+            // reverse the "words" array elements {
+                for (int i = 0; i < words.Length; i++)
+                {
+                    string reversedWord = new string(words[i].Reverse().ToArray());
+                    words[i] = reversedWord;
+                }
+            // }
 
-            finally
-            {
-                Console.WriteLine("\nÇıktı; " + output);
-            }
+            // print the "words" array elements {
+                Console.WriteLine();
+                foreach (string word in words)
+                    Console.Write(word + " ");
+                Console.Write("\n");
+            // }
 
-            Console.WriteLine("\nYeniden denemek için 'y' giriniz:");
+            Console.WriteLine("\nYeniden çalıştırmak için 'y' giriniz: ");
             string inputKey = Console.ReadLine();
 
             if (inputKey == "y")
             {
-                goto RunItAgain;
+                goto Run;
             }
         }
     }

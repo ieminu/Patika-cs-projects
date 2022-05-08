@@ -2,36 +2,56 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Algoritma
+namespace KarakterTerstenYazdirma
 {
     class ConsoleManager
     {
-        public static ArrayList InputString()
+        public static string CorrectStringInput()
         {
-            ArrayList fixedParameters = new ArrayList();
+            Input:
 
-            TryInput();
+            string input = Console.ReadLine();
 
-            void TryInput()
+            RemoveFirstSpace:
+
+            if (input[0] == ' ')
             {
-                try
+                if (input.Length == 1)
                 {
-                    string input = Console.ReadLine();
-                    string[] parameters = input.Split(',');
-                    fixedParameters = new ArrayList();
-
-                    fixedParameters.Add(parameters[0]);
-                    fixedParameters.Add(int.Parse(parameters[1]));
+                    Console.WriteLine("En az bir harf girmeniz gerekiyor! Yeniden deneyiniz:");
+                    goto Input;
                 }
 
-                catch
+                input = input.Remove(0, 1);
+                goto RemoveFirstSpace;
+            }
+
+            RemoveLastSpace:
+
+            if (input[input.Length - 1] == ' ')
+            {
+                input = input.Remove(input.Length - 1, 1);
+                goto RemoveLastSpace;
+            }
+
+            // equalize the number of spaces in "spaces" variable to input's length {
+            string maxSpacesInInput = "";
+            for (int i = 0; i < input.Length; i++)
+                maxSpacesInInput += ' ';
+            // }
+
+            for (string spaces = maxSpacesInInput; spaces.Length > 1; spaces = spaces.Remove(0, 1))
+            {
+                Check:
+
+                if (input.Contains(spaces))
                 {
-                    Console.WriteLine("Hatalı giriş! İfade giriniz:");
-                    TryInput();
+                    input = input.Replace(spaces, " ");
+                    goto Check;
                 }
             }
 
-            return fixedParameters;
+            return input;
         }
     }
 }
