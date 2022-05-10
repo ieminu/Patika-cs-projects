@@ -1,57 +1,89 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 
-namespace KarakterTerstenYazdirma
+namespace AlanHesaplama
 {
     class ConsoleManager
     {
-        public static string CorrectStringInput()
+        public static int GetCorrectInputInt()
         {
-            Input:
+            int number = 0;
 
-            string input = Console.ReadLine();
+            TryInput();
 
-            RemoveFirstSpace:
-
-            if (input[0] == ' ')
+            void TryInput()
             {
-                if (input.Length == 1)
+                try
                 {
-                    Console.WriteLine("En az bir harf girmeniz gerekiyor! Yeniden deneyiniz:");
-                    goto Input;
+                    number = int.Parse(Console.ReadLine());
+                }
+                
+                catch (NullReferenceException)
+                {
+                    Console.WriteLine("\nBoş değer giremezsiniz! Sayı giriniz:");
+                    TryInput();
                 }
 
-                input = input.Remove(0, 1);
-                goto RemoveFirstSpace;
-            }
-
-            RemoveLastSpace:
-
-            if (input[input.Length - 1] == ' ')
-            {
-                input = input.Remove(input.Length - 1, 1);
-                goto RemoveLastSpace;
-            }
-
-            // equalize the number of spaces in "spaces" variable to input's length {
-            string maxSpacesInInput = "";
-            for (int i = 0; i < input.Length; i++)
-                maxSpacesInInput += ' ';
-            // }
-
-            for (string spaces = maxSpacesInInput; spaces.Length > 1; spaces = spaces.Remove(0, 1))
-            {
-                Check:
-
-                if (input.Contains(spaces))
+                catch (FormatException)
                 {
-                    input = input.Replace(spaces, " ");
-                    goto Check;
+                    Console.WriteLine("\nSayı dışında bir değer giremezsiniz! Sayı giriniz:");
+                    TryInput();
+                }
+
+                if (number > int.MaxValue)
+                {
+                    Console.WriteLine("\nSayı, {0} sayısından büyük olamaz! Tekrar sayı giriniz:", int.MaxValue);
+                    TryInput();
+                }
+
+                if (number < int.MinValue)
+                {
+                    Console.WriteLine("\nSayı, {0} sayısından küçük olamaz! Tekrar sayı giriniz:", int.MinValue);
+                    TryInput();
                 }
             }
 
-            return input;
+            return number;
+        }
+
+        public static float GetCorrectInputFloat()
+        {
+            float number = 0;
+
+            TryInput();
+
+            void TryInput()
+            {
+                try
+                {
+                    number = float.Parse(Console.ReadLine());
+                }
+
+                catch (NullReferenceException)
+                {
+                    Console.WriteLine("\nBoş değer giremezsiniz! Sayı giriniz:");
+                    TryInput();
+                }
+
+                catch (FormatException)
+                {
+                    Console.WriteLine("\nSayı dışında bir değer giremezsiniz! Sayı giriniz:");
+                    TryInput();
+                }
+
+                if (number > float.MaxValue)
+                {
+                    Console.WriteLine("\nSayı, {0} sayısından büyük olamaz! Tekrar sayı giriniz:", float.MaxValue);
+                    TryInput();
+                }
+
+                if (number < float.MinValue)
+                {
+                    Console.WriteLine("\nSayı, {0} sayısından küçük olamaz! Tekrar sayı giriniz:", float.MinValue);
+                    TryInput();
+                }
+            }
+
+            return number;
         }
     }
 }

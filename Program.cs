@@ -1,41 +1,52 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 
-namespace KarakterTerstenYazdirma
+namespace AlanHesaplama
 {
-    class MainClass
+    class Program
     {
         static void Main(string[] args)
         {
-            Run:
+            RunProgram:
 
-            Console.WriteLine("\nTersten yazdırılacak kelimeleri aralarında boşluk bırakarak giriniz:");
-            string input = ConsoleManager.CorrectStringInput();
+            Console.WriteLine("\nÜzerinde işlem yapacağınız şekli seçiniz:");
+            Console.WriteLine("Daire (1)");
+            Console.WriteLine("Üçgen (2)");
+            Console.WriteLine("Kare (3)");
+            Console.WriteLine("Dikdörtgen (4)\n");
 
-            string[] words = input.Contains(" ") == true ? input.Split(" ") : input.Split("");
+            InputShapeID:
 
-            // reverse the "words" array elements {
-                for (int i = 0; i < words.Length; i++)
-                {
-                    string reversedWord = new string(words[i].Reverse().ToArray());
-                    words[i] = reversedWord;
-                }
-            // }
+            int inputShapeID = ConsoleManager.GetCorrectInputInt();
 
-            // print the "words" array elements {
-                Console.WriteLine();
-                foreach (string word in words)
-                    Console.Write(word + " ");
-                Console.Write("\n");
-            // }
+            switch (inputShapeID)
+            {
+                case 1 :
+                    Shapes.Circle();
+                    break;
+                    
+                case 2 :
+                    Shapes.Triangle();
+                    break;
+                    
+                case 3 :
+                    Shapes.Square();
+                    break;
+                    
+                case 4 :
+                    Shapes.Rectangle();
+                    break;
 
-            Console.WriteLine("\nYeniden çalıştırmak için 'y' giriniz: ");
+                default :
+                    Console.WriteLine("\nSayınız 1, 2, 3 ve 4 sayıları dışındaki bir değere sahip olamaz! Tekrar sayı giriniz:");
+                    goto InputShapeID;
+            }
+
+            Console.WriteLine("\nYeniden denemek için 'y' giriniz:");
             string inputKey = Console.ReadLine();
 
             if (inputKey == "y")
             {
-                goto Run;
+                goto RunProgram;
             }
         }
     }
