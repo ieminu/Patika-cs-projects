@@ -8,8 +8,8 @@ namespace IntegerIkililerinToplami
         {
             RunProgram:
 
-            Console.WriteLine("\nAralarında boşluk bırakarak çift sayıda pozitif sayı giriniz:");
-
+            Console.WriteLine("\n67'den küçük olanların sadece 67 ile olan mutlak farklarının toplanacağı, 67'den büyük olanların ise 67 ile olan mutlak farklarının kareleri alınıp toplanacağı sayıları giriniz:");
+            
             Input:
 
             string input = Console.ReadLine();
@@ -33,16 +33,21 @@ namespace IntegerIkililerinToplami
             }
             // }
 
-            if (input.Length != 0 && input[0] == ' ')
+            try
             {
-                input = input.Remove(0, 1);
+                if (input[0] == ' ')
+                {
+                    input = input.Remove(0, 1);
+                }
+
+                if (input[input.Length - 1] == ' ')
+                {
+                    input = input.Remove(input.Length - 1, 1);
+                }
             }
 
-            if (input.Length != 0 && input[input.Length - 1] == ' ')
-            {
-                input = input.Remove(input.Length - 1, 1);
-            }
-
+            catch{}
+            
             float[] numbers = new float[0];
 
             try
@@ -64,7 +69,7 @@ namespace IntegerIkililerinToplami
 
             catch (OverflowException)
             {
-                Console.WriteLine("\n'{0}' sayısından büyük veya negatif bir sayı giremezsiniz! Tekrar giriniz:", Math.Sqrt(float.MaxValue) / 2);
+                Console.WriteLine("\n{0} sayısından büyük veya {1} sayısından küçük bir sayı giremezsiniz! Tekrar giriniz:", Math.Sqrt(float.MaxValue + 67), float.MinValue + 67);
                 goto Input;
             }
 
@@ -74,35 +79,39 @@ namespace IntegerIkililerinToplami
                 goto Input;
             }
 
-            if (numbers.Length % 2 == 1)
-            {
-                Console.WriteLine("\nTek sayıda sayı giremezsiniz! Lütfen çift sayıda sayı giriniz:");
-                goto Input;
-            }
-
             foreach (float number in numbers)
             {
-                if (number > Math.Sqrt(float.MaxValue) / 2)
+                if (number < float.MinValue + 67)
                 {
-                    Console.WriteLine("\n'{0}' sayısından büyük bir sayı giremezsiniz! Tekrar giriniz:", Math.Sqrt(float.MaxValue) / 2);
+                    Console.WriteLine("\n{0} sayısından küçük bir sayı giremezsiniz! Tekrar giriniz:", float.MinValue + 67);
+                    goto Input;
+                }
+
+                if (number > Math.Sqrt(float.MaxValue + 67))
+                {
+                    Console.WriteLine("\n{0} sayısından büyük bir sayı giremezsiniz! Tekrar giriniz:", Math.Sqrt(float.MaxValue + 67));
                     goto Input;
                 }
             }
 
-            Console.WriteLine();
-            for (int i = 0; i < numbers.Length; i += 2)
+            float firstOutput = 0;
+            float secondOutput = 0;
+
+            for (int i = 0; i < numbers.Length; i++)
             {
-                if (numbers[i] != numbers[i + 1])
+                if (numbers[i] < 67)
                 {
-                    Console.Write(numbers[i] + numbers[i + 1] + " ");
+                    firstOutput += 67 - numbers[i];
                 }
 
-                else
+                if (numbers[i] > 67)
                 {
-                    Console.Write(Math.Pow(numbers[i] + numbers[i + 1], 2) + " ");
+                    secondOutput += (float)Math.Pow(numbers[i] - 67, 2);
                 }
             }
-            Console.WriteLine();
+
+            Console.WriteLine("\n67'den küçük olanların, 67 ile olan mutlak farklarının toplamı; " + firstOutput);
+            Console.WriteLine("\n67'den büyük olanların, 67 ile olan mutlak farklarının karesinin toplamı; " + secondOutput);
 
             Console.WriteLine("\nYeniden denemek için 'y' giriniz:");
             string inputKey = Console.ReadLine();
