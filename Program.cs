@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IntegerIkililerinToplami
+namespace KarakterDegistirme
 {
     class Program
     {
@@ -8,12 +8,12 @@ namespace IntegerIkililerinToplami
         {
             RunProgram:
 
-            Console.WriteLine("\n67'den küçük olanların sadece 67 ile olan mutlak farklarının toplanacağı, 67'den büyük olanların ise 67 ile olan mutlak farklarının kareleri alınıp toplanacağı sayıları giriniz:");
+            Console.WriteLine("\nİçerisindeki kelimelerin ilk ve son harflerinin yerlerinin, ters çevirileceği bir ifade giriniz:\n");
             
             Input:
-
+            
             string input = Console.ReadLine();
-
+            
             // Equalize the number of spaces in 'spacesAsLengthOfInput' to input's length {
             string spacesAsLengthOfInput = "";
             for (int i = 0; i < input.Length; i++)
@@ -47,78 +47,39 @@ namespace IntegerIkililerinToplami
             }
 
             catch{}
-            
-            float[] numbers = new float[0];
 
-            try
+            if (input.Length == 0)
             {
-                string[] stringNumbers = input.Split(" ");
-                numbers = new float[stringNumbers.Length];
-
-                for (int i = 0; i < stringNumbers.Length; i++)
-                {
-                    numbers[i] = float.Parse(stringNumbers[i]);
-                }
-            }
-
-            catch (FormatException)
-            {
-                Console.WriteLine("\nSayı dışında bir değer giremezsiniz! Tekrar giriniz:");
+                Console.WriteLine("\nBoş değer giremezsiniz! Tekrar giriniz:\n");
                 goto Input;
             }
 
-            catch (OverflowException)
+            else
             {
-                Console.WriteLine("\n{0} sayısından büyük veya {1} sayısından küçük bir sayı giremezsiniz! Tekrar giriniz:", Math.Sqrt(float.MaxValue + 67), float.MinValue + 67);
-                goto Input;
-            }
+                string[] words = input.Split(" ");
+                string[] reversedWords = new string[words.Length];
 
-            catch (NullReferenceException)
-            {
-                Console.WriteLine("\nBoş değer giremezsiniz! Tekrar giriniz:");
-                goto Input;
-            }
-
-            foreach (float number in numbers)
-            {
-                if (number < float.MinValue + 67)
+                for (int i = 0; i < words.Length; i++)
                 {
-                    Console.WriteLine("\n{0} sayısından küçük bir sayı giremezsiniz! Tekrar giriniz:", float.MinValue + 67);
-                    goto Input;
+                    char firstCharcter = words[i][0];
+                    reversedWords[i] = words[i].Length > 1 ? words[i][words[i].Length - 1] + words[i].Remove(words[i].Length - 1, 1).Remove(0, 1) + firstCharcter : words[i];
                 }
 
-                if (number > Math.Sqrt(float.MaxValue + 67))
+                Console.Write("\nÇıktı;");
+                foreach (string reversedWord in reversedWords)
                 {
-                    Console.WriteLine("\n{0} sayısından büyük bir sayı giremezsiniz! Tekrar giriniz:", Math.Sqrt(float.MaxValue + 67));
-                    goto Input;
+                    Console.Write(" ");
+                    Console.Write(reversedWord);
                 }
-            }
+                Console.Write("\n");
 
-            float firstOutput = 0;
-            float secondOutput = 0;
+                Console.WriteLine("\nYeniden denemek için 'y' giriniz:\n");
+                string inputKey = Console.ReadLine();
 
-            for (int i = 0; i < numbers.Length; i++)
-            {
-                if (numbers[i] < 67)
+                if (inputKey == "y")
                 {
-                    firstOutput += 67 - numbers[i];
+                    goto RunProgram;
                 }
-
-                if (numbers[i] > 67)
-                {
-                    secondOutput += (float)Math.Pow(numbers[i] - 67, 2);
-                }
-            }
-
-            Console.WriteLine("\n67'den küçük olanların, 67 ile olan mutlak farklarının toplamı; " + firstOutput);
-            Console.WriteLine("\n67'den büyük olanların, 67 ile olan mutlak farklarının karesinin toplamı; " + secondOutput);
-
-            Console.WriteLine("\nYeniden denemek için 'y' giriniz:");
-            string inputKey = Console.ReadLine();
-
-            if (inputKey == "y")
-            {
-                goto RunProgram;
             }
         }
     }
