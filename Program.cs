@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace KarakterDegistirme
+namespace SessizHarf
 {
     class Program
     {
@@ -8,7 +8,7 @@ namespace KarakterDegistirme
         {
             RunProgram:
 
-            Console.WriteLine("\nİçerisindeki kelimelerin ilk ve son harflerinin yerlerinin, ters çevirileceği bir ifade giriniz:\n");
+            Console.WriteLine("\nİçerisindeki kelimelerin her birinde; yan yana iki sessiz harf varsa true, yoksa false yazılcak ifadeyi giriniz:\n");
             
             Input:
             
@@ -48,38 +48,74 @@ namespace KarakterDegistirme
 
             catch{}
 
+            char[] consonants = {'b', 'c', 'ç', 'd', 'f', 'g', 'ğ', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'r', 's', 'ş', 't', 'v', 'y', 'z', 'q', 'w', 'x'};
+
             if (input.Length == 0)
             {
                 Console.WriteLine("\nBoş değer giremezsiniz! Tekrar giriniz:\n");
                 goto Input;
             }
 
-            else
+            string[] words = input.Split(" ");
+
+            Console.Write("\nÇıktı;");
+            
+            foreach (string word in words)
             {
-                string[] words = input.Split(" ");
-                string[] reversedWords = new string[words.Length];
+                Console.Write(" ");
 
-                for (int i = 0; i < words.Length; i++)
+                bool isFirstConsonantFounded = false;
+                bool isTrue = false;
+                int letterCounter = 0;
+
+                foreach (char letter in word.ToLower())
                 {
-                    char firstCharcter = words[i][0];
-                    reversedWords[i] = words[i].Length > 1 ? words[i][words[i].Length - 1] + words[i].Remove(words[i].Length - 1, 1).Remove(0, 1) + firstCharcter : words[i];
+                    foreach (char consonant in consonants)
+                    {
+                        if (letter == consonant)
+                        {
+                            if (isFirstConsonantFounded)
+                            {
+                                isTrue = true;
+                            }
+
+                            else
+                            {
+                                isFirstConsonantFounded = true;
+                            }
+
+                            break;
+                        }
+                    }
+                    
+                    if (isTrue)
+                    {
+                        break;
+                    }
+
+                    if (isFirstConsonantFounded)
+                    {
+                        letterCounter++;
+
+                        if (letterCounter >= 2)
+                        {
+                            isFirstConsonantFounded = false;
+                            letterCounter = 0;
+                        }
+                    }
                 }
 
-                Console.Write("\nÇıktı;");
-                foreach (string reversedWord in reversedWords)
-                {
-                    Console.Write(" ");
-                    Console.Write(reversedWord);
-                }
-                Console.Write("\n");
+                Console.Write(isTrue);
+            }
 
-                Console.WriteLine("\nYeniden denemek için 'y' giriniz:\n");
-                string inputKey = Console.ReadLine();
+            Console.Write("\n");
 
-                if (inputKey == "y")
-                {
-                    goto RunProgram;
-                }
+            Console.WriteLine("\nYeniden denemek için 'y' giriniz:\n");
+            string inputKey = Console.ReadLine();
+
+            if (inputKey == "y")
+            {
+                goto RunProgram;
             }
         }
     }
